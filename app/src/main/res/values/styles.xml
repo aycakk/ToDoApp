@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CalendarView için özel stil -->
+    <style name="CustomCalendarView" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">#DC2161</item> <!-- Seçilen tarihin rengi -->
+        <item name="colorControlActivated">#FF74A3</item> <!-- Aktif tarihin rengi -->
+        <item name="colorControlHighlight">#FF74A3</item> <!-- Vurgu rengi -->
+        <item name="android:colorBackground">#FFFFFF</item> <!-- Arka plan rengi -->
+        <item name="android:textColorPrimary">#000000</item> <!-- Metin rengi -->
+    </style>
+</resources>
