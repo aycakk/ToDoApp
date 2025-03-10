@@ -28,14 +28,8 @@ class TasksAdapter(var mcontext: Context,var tasklist:List<Tasks> ,var viewModel
         val Task=tasklist.get(position)
         val t=holder.design
         t.taskobject=Task
-        t.deleteTaskButton.setOnClickListener {
-            Snackbar.make(it,"${Task.title} is delete?", Snackbar.LENGTH_SHORT)
-                .setAction("Yes"){
-                    viewModel.delete(Task.id!!)
-                }.show()
 
-        }
-        t.editTaskButton.setOnClickListener {
+        t.taskcard.setOnClickListener {
             val action=HomeFragmentDirections.actionHomeFragmentToEditFragment(Task=Task)
             Navigation.findNavController(it).navigate(action)
 

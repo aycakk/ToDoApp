@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-02-16T22:19:31.751563Z">
+        <DropdownSelection timestamp="2025-03-08T14:12:37.063042700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\kayac\.android\avd\my_phone.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\kayac\.android\avd\Pixel_2_API_TiramisuPrivacySandbox_1.avd" />
             </handle>
           </Target>
         </DropdownSelection>

@@ -15,12 +15,16 @@ import com.example.todo.R.id.action_homeFragment_to_addFragment
 import com.example.todo.ViewModel.AddViewModel
 import com.example.todo.ViewModel.HomeViewModel
 import com.example.todo.databinding.HomeFragmentBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 private lateinit var binding:HomeFragmentBinding
 private lateinit var viewModel: HomeViewModel
+private lateinit var auth:FirebaseAuth
 
 
     override fun onCreateView(
@@ -37,6 +41,9 @@ private lateinit var viewModel: HomeViewModel
 
         }
         onResume()
+        binding.logoutbutton.setOnClickListener {
+            logOutClicked(it)
+        }
 
 
 
@@ -53,7 +60,15 @@ private lateinit var viewModel: HomeViewModel
         super.onCreate(savedInstanceState)
         val tepmviewmodel: HomeViewModel by viewModels()
         viewModel=tepmviewmodel
+        auth = Firebase.auth
     }
+    fun logOutClicked(view: View) {
+        auth.signOut()
+
+        // Kullanıcıyı login ekranına yönlendirme
+        Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_loginFragment)
+    }
+
 
     override fun onResume() {
         super.onResume()

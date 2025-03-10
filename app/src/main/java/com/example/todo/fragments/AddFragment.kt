@@ -68,7 +68,7 @@ private var selectedDate: String = ""
         val minute = calendar.get(Calendar.MINUTE)
 
         val timePickerDialog = TimePickerDialog(
-            requireContext(),
+             requireContext(),
             { _, selectedHour, selectedMinute ->
                 val selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
                 editText.setText(selectedTime)

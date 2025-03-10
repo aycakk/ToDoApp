@@ -13,4 +13,6 @@ class TasksRepostory(var tds:TaskDataSource) {
     }
     fun loading(): MutableLiveData<List<Tasks>> =tds.loading()
     fun delete(task_id:String)=tds.delete(task_id)
+    fun update( task_id: String,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
+                date: Long)=tds.update( task_id,task_title, task_explain, task_startdate, task_end_date,date)
 }

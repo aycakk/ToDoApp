@@ -16,5 +16,5 @@ class HomeViewModel @Inject constructor(var trs: TasksRepostory): ViewModel() {
         tasklist=trs.loading()
     }
 
-    fun delete(task_id:String)=trs.delete(task_id)
+
 }
