@@ -46,15 +46,20 @@ class TaskDataSource(var collectionTasks:CollectionReference) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     if (currentUser != null) {
       val userId = currentUser.uid
-      collectionTasks.whereEqualTo("userId", userId)
       Log.d("user", "userıd: $userId")
-    collectionTasks.addSnapshotListener { value, error ->
+      collectionTasks.whereEqualTo("userID", userId)
+      .addSnapshotListener { value, error ->
+        if (error != null) {
+          Log.e("FirestoreError", "Error getting tasks", error)
+          return@addSnapshotListener
+        }
       if (value != null) {
         val list = ArrayList<Tasks>()
         for (d in value.documents) {
           val task = d.toObject(Tasks::class.java)
           if (task != null) {
             task.id = d.id
+            Log.d("FirestoreData", "Document ID: ${d.id}, Data: ${d.data}")
             list.add(task)
           }
 
