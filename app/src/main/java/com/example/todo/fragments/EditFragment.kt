@@ -42,6 +42,7 @@ class EditFragment : Fragment() {
         binding.lifecycleOwner=viewLifecycleOwner
         val  bundle:EditFragmentArgs by navArgs()
         val toTask=bundle.Task
+
         binding.task=toTask
         Log.d("ZAMAN_KONTROL", "startdate: ${toTask.startdate}, end_date: ${toTask.end_date}")
         Log.d("ZAMAN_KONTROL", " date: ${toTask.date},")

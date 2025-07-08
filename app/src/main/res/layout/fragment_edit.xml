@@ -3,13 +3,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:elevation="8dp">
+    android:elevation="-8dp">
 
     <data>
 
         <variable
             name="Editfragment"
             type="com.example.todo.fragments.EditFragment" />
+
         <variable
             name="task"
             type="com.example.todo.data.entity.Tasks" />
@@ -27,9 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/rammetto_one"
             android:text="Schedule"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
@@ -41,7 +42,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/white"
-            android:elevation="8dp"
+            android:elevation="-8dp"
             android:ems="10"
             android:inputType="text"
             android:paddingStart="8dp"
@@ -78,9 +79,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/rammetto_one"
             android:text="Start Time"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/editTextstart_time"
             app:layout_constraintTop_toBottomOf="@+id/explain" />
 
@@ -96,6 +97,7 @@
             android:background="@color/white"
             android:elevation="8dp"
             android:ems="10"
+            android:fontFamily="@font/rammetto_one"
             android:hint="HH:MM"
             android:inputType="time"
             android:textColor="@android:color/black"
@@ -108,9 +110,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/rammetto_one"
             android:text="End Time"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/editTextendtime"
             app:layout_constraintTop_toBottomOf="@+id/explain" />
 
@@ -124,6 +126,8 @@
             android:elevation="8dp"
             android:ems="10"
 
+            android:fontFamily="@font/rammetto_one"
+            android:hint="HH:MM"
             android:inputType="time"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray"
@@ -132,8 +136,8 @@
 
         <Button
             android:id="@+id/buttonedit"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
 
 
             android:layout_marginStart="32dp"
@@ -141,20 +145,22 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/button"
-            android:text="Edit Task"
+            android:fontFamily="@font/rammetto_one"
             android:onClick="@{()->Editfragment.onCreateeditClick(buttonedit)}"
+            android:text="Edit Task"
             android:textColorLink="@color/button"
-            android:textSize="16sp"
-            app:cornerRadius="5dp"
+            android:textSize="12sp"
+            app:cornerRadius="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextstart_time" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextstart_time"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp" />
 
         <Button
             android:id="@+id/buttondelete"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-
+            android:layout_width="160dp"
+            android:layout_height="50dp"
 
 
             android:layout_marginStart="24dp"
@@ -162,14 +168,17 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/button"
+            android:fontFamily="@font/rammetto_one"
             android:text="Delete Task"
             android:textColorLink="@color/button"
-            android:textSize="16sp"
-            app:cornerRadius="5dp"
+            android:textSize="12sp"
+            app:cornerRadius="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonedit"
-            app:layout_constraintTop_toBottomOf="@+id/editTextendtime" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextendtime"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp" />
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -197,6 +206,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="64dp"
             android:layout_marginEnd="8dp"
+            android:fontFamily="@font/rammetto_one"
             android:text="@{task.title}"
             android:textColor="@color/button"
             android:textSize="34sp"

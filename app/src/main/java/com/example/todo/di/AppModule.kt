@@ -1,13 +1,16 @@
 package com.example.todo.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.todo.data.datasource.TaskDataSource
 import com.example.todo.data.Repo.TasksRepostory
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.firestore
+import com.example.todo.room.DataBase
+import com.example.todo.room.TaskDao
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -16,8 +19,8 @@ import javax.inject.Singleton
 class AppModule {
     @Provides
     @Singleton
-    fun provideTasksDatasource(collectionTasks:CollectionReference):TaskDataSource{
-        return TaskDataSource(collectionTasks)
+    fun provideTasksDatasource(taskDao:TaskDao):TaskDataSource{
+        return TaskDataSource(taskDao)
     }
     @Provides
     @Singleton
@@ -27,8 +30,12 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCollectionReferance():CollectionReference{
-        return Firebase.firestore.collection("Tasks")
+    fun provideCollectionReferance(@ApplicationContext context:Context) :TaskDao{
+        val vt = Room.databaseBuilder(context,DataBase::class.java,"Tasks.sqlite")
+            .createFromAsset("Tasks.sqlite").build()
+        return vt.gettaskdao()
     }
+
+
 
 }
