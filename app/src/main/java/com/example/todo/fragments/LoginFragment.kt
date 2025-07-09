@@ -25,50 +25,7 @@ class LoginFragment : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_login, container, false)
-        // Inflate the layout for this fragment
-        binding.loginButton.setOnClickListener {
-            signInClicked(it)
-        }
-        binding.registerButton.setOnClickListener {
-            signUpClicked(it)
-        }
-        return binding.root
-    }
 
-    fun signInClicked(view: View) {
-        val userEmail = binding.emailEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-
-        if (userEmail.isNotEmpty() && password.isNotEmpty()){
-            auth.signInWithEmailAndPassword(userEmail,password).addOnCompleteListener {
-                if (it.isSuccessful){
-                    Toast.makeText(requireContext(),"Welcome: ${auth.currentUser?.email.toString()}",Toast.LENGTH_LONG).show()
-                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_homeFragment)
-                }
-            }.addOnFailureListener {  exception ->
-                Toast.makeText(requireContext(),exception.localizedMessage,Toast.LENGTH_LONG).show() }
-        }
-
-    }
-    fun signUpClicked(view: View) {
-        val userEmail = binding.emailEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-
-        if (userEmail.isNotEmpty() && password.isNotEmpty()){
-            auth.createUserWithEmailAndPassword(userEmail,password).addOnCompleteListener {
-                if (it.isSuccessful){
-
-                    Navigation.findNavController(requireView()).navigate(R.id.action_loginFragment_to_homeFragment)
-                }
-            }.addOnFailureListener {  exception ->
-                Toast.makeText(requireContext(),exception.localizedMessage,Toast.LENGTH_LONG).show() }
-        }
-    }
 
 
 }

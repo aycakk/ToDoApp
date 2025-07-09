@@ -41,9 +41,7 @@ private lateinit var auth:FirebaseAuth
 
         }
         onResume()
-        binding.logoutbutton.setOnClickListener {
-            logOutClicked(it)
-        }
+        
 
 
 
@@ -62,12 +60,7 @@ private lateinit var auth:FirebaseAuth
         viewModel=tepmviewmodel
         auth = Firebase.auth
     }
-    fun logOutClicked(view: View) {
-        auth.signOut()
 
-        // Kullanıcıyı login ekranına yönlendirme
-        Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_loginFragment)
-    }
 
 
     override fun onResume() {

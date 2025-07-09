@@ -7,12 +7,12 @@ import com.example.todo.data.entity.Tasks
 
 class TasksRepostory(var tds:TaskDataSource) {
 
-    fun save(task_title:String,task_explain:String,task_startdate:Long,task_end_date:Long,date:Long){
+    suspend fun save(task_title:String,task_explain:String,task_startdate:Long,task_end_date:Long,date:Long){
         tds.save(task_title, task_explain, task_startdate,task_end_date, date )
         Log.d("Saverepo", "viewsave ")
     }
-    fun loading(): MutableLiveData<List<Tasks>> =tds.loading()
-    fun delete(task_id:String)=tds.delete(task_id)
-    fun update( task_id: String,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
+   suspend fun loading()=tds.loading()
+    suspend fun delete(task_id:Int)=tds.delete(task_id)
+    suspend fun update( task_id: Int,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
                 date: Long)=tds.update( task_id,task_title, task_explain, task_startdate, task_end_date,date)
 }
