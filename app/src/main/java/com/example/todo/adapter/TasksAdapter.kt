@@ -28,17 +28,30 @@ class TasksAdapter(var mcontext: Context,var tasklist:List<Tasks> ,var viewModel
         val Task=tasklist.get(position)
         val t=holder.design
         t.taskobject=Task
+        with(t){
+            taskcard.setOnClickListener {
+                val action=HomeFragmentDirections.actionHomeFragmentToEditFragment(Task=Task)
+                Navigation.findNavController(it).navigate(action)
 
-        t.taskcard.setOnClickListener {
-            val action=HomeFragmentDirections.actionHomeFragmentToEditFragment(Task=Task)
-            Navigation.findNavController(it).navigate(action)
+            }
+            checkBox.setOnCheckedChangeListener(null)
+            checkBox.isChecked = Task.isCompleted
+            checkBox.setOnCheckedChangeListener { compoundButton, b ->
 
+                    viewModel.updateTaskCompletion(taskobject!!.id, checkBox.isChecked)
+
+            }
+
+
+            }
         }
 
 
 
 
-    }
+
+
+
 
 
     override fun getItemCount(): Int {

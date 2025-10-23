@@ -37,44 +37,42 @@ class EditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       binding=DataBindingUtil.inflate(inflater,R.layout.fragment_edit, container, false)
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_edit, container, false)
         binding.editfragment=this
-        binding.lifecycleOwner=viewLifecycleOwner
-        val  bundle:EditFragmentArgs by navArgs()
-        val toTask=bundle.Task
+        with(binding){
 
-        binding.task=toTask
-        Log.d("ZAMAN_KONTROL", "startdate: ${toTask.startdate}, end_date: ${toTask.end_date}")
-        Log.d("ZAMAN_KONTROL", " date: ${toTask.date},")
 
-        binding.editTextstartTime.setText(formatTime(toTask.startdate))
-        binding.editTextendtime.setText(formatTime(toTask.end_date))
-        binding.calendarView.setDate(toTask.date ?: System.currentTimeMillis())
-        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = Calendar.getInstance()
-            calendar.set(year, month, dayOfMonth)
-            selectedDate = calendar.timeInMillis.toString() // Timestamp olarak sakla
-            Log.d("CalendarView", "Seçilen Tarih: $selectedDate")
+            lifecycleOwner=viewLifecycleOwner
+            val  bundle:EditFragmentArgs by navArgs()
+            val toTask=bundle.Task
+
+            task=toTask
+            Log.d("ZAMAN_KONTROL", "startdate: ${toTask.startdate}, end_date: ${toTask.end_date}")
+            Log.d("ZAMAN_KONTROL", " date: ${toTask.date},")
+
+            editTextstartTime.setText(formatTime(toTask.startdate))
+            editTextendtime.setText(formatTime(toTask.end_date))
+            calendarView.setDate(toTask.date ?: System.currentTimeMillis())
+            calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                val calendar = Calendar.getInstance()
+                calendar.set(year, month, dayOfMonth)
+                selectedDate = calendar.timeInMillis.toString() // Timestamp olarak sakla
+                Log.d("CalendarView", "Seçilen Tarih: $selectedDate")
+            }
+
+            val navController = findNavController()
+
+            buttondelete.setOnClickListener {
+
+                Snackbar.make(it,"${task!!.title} is delete?", Snackbar.LENGTH_SHORT)
+                    .setAction("Yes"){
+                        viewModel.delete(toTask!!.id!!)
+                        navController.navigate(R.id.action_editFragment_to_homeFragment)
+
+                    }.show()
+            }
+
         }
-
-        val navController = findNavController()
-        binding.buttondelete.setOnClickListener {
-
-            Snackbar.make(it,"${binding.task!!.title} is delete?", Snackbar.LENGTH_SHORT)
-                .setAction("Yes"){
-                    viewModel.delete(toTask!!.id!!)
-                    navController.navigate(R.id.action_editFragment_to_homeFragment)
-
-                }.show()
-
-
-
-        }
-
-
-
-
-
         return binding.root
     }
     private fun formatTime(seconds: Long): String {
@@ -125,8 +123,9 @@ class EditFragment : Fragment() {
 
 
             viewModel.update(binding.task!!.id,title, explain, startTimeLong, endTimeLong,selectedDate.toLong())
-            Log.d("SaveTask", "onCreateButtonClick")
+            Log.d("editTask", "onediteButtonClick")
             Snackbar.make(it,"Your task is edited.",Snackbar.LENGTH_SHORT).show()
+            Navigation.findNavController(it).navigate(R.id.action_editFragment_to_homeFragment)
 
         } catch (e: Exception) {
             e.printStackTrace()

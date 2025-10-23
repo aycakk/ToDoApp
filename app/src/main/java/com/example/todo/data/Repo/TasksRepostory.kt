@@ -15,4 +15,9 @@ class TasksRepostory(var tds:TaskDataSource) {
     suspend fun delete(task_id:Int)=tds.delete(task_id)
     suspend fun update( task_id: Int,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
                 date: Long)=tds.update( task_id,task_title, task_explain, task_startdate, task_end_date,date)
+    suspend fun ischecked(task_id: Int,ischecked:Boolean)=tds.ischecked(task_id,ischecked)
+    suspend fun getTaskById(id: Int)=tds.getTaskById(id)
+    suspend fun getTasksForWeek(startDate: Long, endDate: Long): List<Tasks> {
+        return tds.getTasksForWeek(startDate, endDate)
+    }
 }

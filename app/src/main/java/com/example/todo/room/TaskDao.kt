@@ -11,7 +11,7 @@ interface TaskDao {
  @Insert
  suspend fun save(task: Tasks)
 
- @Query("SELECT *FROM  task")
+ @Query("SELECT * FROM  task")
  suspend fun loadingtask():List<Tasks>
 
  @Delete
@@ -19,4 +19,12 @@ interface TaskDao {
 
  @Update
  suspend fun update(task: Tasks)
+
+ @Query("SELECT * FROM task WHERE task_id = :id")
+ suspend fun getTaskById(id: Int): Tasks?
+
+ @Query("SELECT * FROM task WHERE `date` BETWEEN :start AND :end ORDER BY `date` ASC")
+ suspend fun getTasksBetween(start: Long, end: Long): List<Tasks>
+
+
 }

@@ -1,4 +1,7 @@
 package com.example.todo.data.entity
 
-class DayItem {
+data class DayItem ( var dayName : String, // "Mon"
+                     var dateMillis: Long ,// zaman damgası
+                     var isSelected: Boolean = false){
+
 }

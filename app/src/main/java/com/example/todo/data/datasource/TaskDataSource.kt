@@ -12,21 +12,31 @@ import kotlinx.coroutines.withContext
 
 class TaskDataSource(var taskDao: TaskDao) {
 
-  suspend fun  save(
-    task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
+  suspend fun save(
+    task_title: String,
+    task_explain: String,
+    task_startdate: Long,
+    task_end_date: Long,
     date: Long
   ) {
     try {
-        val newtask =
-          Tasks(0, 0,task_title, task_explain, false, task_startdate, task_end_date, date, 0)
-      taskDao.save(newtask)
-      }
-
-    catch (e:Exception){
-      Log.d("", "",e)
-
+      val newTask = Tasks(
+        id = 0,
+        userID = 0,
+        title = task_title,
+        explain = task_explain,
+        isCompleted = false,
+        startdate = task_startdate,
+        end_date = task_end_date,
+        date = date, // seçilen günün epochMillis
+        createdAt = System.currentTimeMillis() // kaydın oluşturulma zamanı
+      )
+      taskDao.save(newTask)
+    } catch (e: Exception) {
+      Log.d("saveError", "Task kaydedilirken hata", e)
     }
   }
+
 
   suspend fun loading(): List<Tasks> =
     withContext(Dispatchers.IO){
@@ -48,11 +58,32 @@ class TaskDataSource(var taskDao: TaskDao) {
   }
   suspend fun update( task_id: Int,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
               date: Long){
-    val updatetask=Tasks(task_id,0,task_title,task_explain,false,task_startdate,task_end_date,date)
+    val oldTask = taskDao.getTaskById(task_id) ?: return
+    val updatedTask = oldTask.copy(
+      title = task_title,
+      explain = task_explain,
+      startdate = task_startdate,
+      end_date = task_end_date,
+      date = date
+    )
 
-   taskDao.update(updatetask)
-
-
+    taskDao.update(updatedTask)
   }
-}
+  suspend fun ischecked(task_id: Int,ischecked:Boolean){
+    val task = taskDao.getTaskById(task_id) ?: return
+    val updatedTask = task.copy(isCompleted = ischecked)
+    taskDao.update(updatedTask)
+  }
+
+  suspend fun getTaskById(id: Int){
+    taskDao.getTaskById(id)
+  }
+
+
+    suspend fun getTasksForWeek(startDate: Long, endDate: Long): List<Tasks> {
+      return taskDao.getTasksBetween(startDate, endDate)
+    }
+  }
+
+
 
