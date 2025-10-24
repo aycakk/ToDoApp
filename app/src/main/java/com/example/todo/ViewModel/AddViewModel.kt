@@ -2,7 +2,7 @@ package com.example.todo.ViewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.todo.data.Repo.TasksRepostory
+import com.example.todo.data.Repo.TasksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
 @HiltViewModel
-class AddViewModel @Inject constructor(var trs:TasksRepostory):ViewModel() {
+class AddViewModel @Inject constructor(var trs:TasksRepository):ViewModel() {
 
     fun save(task_title:String,task_explain:String,task_startdate:Long,task_end_date:Long,date: Long){
         CoroutineScope(Dispatchers.Main).launch {

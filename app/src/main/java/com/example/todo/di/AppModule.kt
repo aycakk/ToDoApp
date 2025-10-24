@@ -3,7 +3,7 @@ package com.example.todo.di
 import android.content.Context
 import androidx.room.Room
 import com.example.todo.data.datasource.TaskDataSource
-import com.example.todo.data.Repo.TasksRepostory
+import com.example.todo.data.Repo.TasksRepository
 import com.example.todo.room.DataBase
 import com.example.todo.room.TaskDao
 
@@ -24,8 +24,8 @@ class AppModule {
     }
     @Provides
     @Singleton
-    fun provideTasksRepostory(tds:TaskDataSource):TasksRepostory{
-        return TasksRepostory(tds)
+    fun provideTasksRepostory(tds:TaskDataSource):TasksRepository{
+        return TasksRepository(tds)
     }
 
     @Provides

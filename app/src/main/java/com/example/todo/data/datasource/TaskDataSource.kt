@@ -7,6 +7,7 @@ import com.example.todo.room.TaskDao
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.internal.DoubleCheck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -54,5 +55,10 @@ class TaskDataSource(var taskDao: TaskDao) {
 
 
   }
+  suspend fun isChecked(task_id: Int, isCheck: Boolean) {
+    taskDao.updateChecked(task_id, isCheck)
+  }
+
+
 }
 
