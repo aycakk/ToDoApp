@@ -73,6 +73,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     implementation ("com.google.firebase:firebase-auth:21.1.0")
 
+        implementation ("androidx.work:work-runtime-ktx:2.9.1")
+
+
+
 
 
 
