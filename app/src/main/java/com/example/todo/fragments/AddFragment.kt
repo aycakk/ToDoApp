@@ -117,7 +117,7 @@ private var selectedDate: String = ""
             }
 
 
-            viewModel.save(title, explain, startTimeLong, endTimeLong,selectedDate.toLong())
+            viewModel.save(requireContext(),title, explain, startTimeLong, endTimeLong,selectedDate.toLong())
             Log.d("SaveTask", "onCreateButtonClick")
             Snackbar.make(it,"New task is created",Snackbar.LENGTH_SHORT).show()
             Navigation.findNavController(it).navigate(R.id.action_addFragment_to_homeFragment)
