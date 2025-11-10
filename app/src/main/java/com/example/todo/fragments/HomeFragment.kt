@@ -44,6 +44,16 @@ private lateinit var viewModel: HomeViewModel
         binding.homeobject=this
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewModel.progress.observe(viewLifecycleOwner) { percent ->
+
+            binding.progressText.text = "$percent% is completed"
+
+        }
+        viewModel.calculateProgress(viewModel.tasklist.value ?: emptyList())
+
+
+
+
         viewModel.tasklist.observe(viewLifecycleOwner){
             val taskadapter=TasksAdapter(requireContext(),it,viewModel)
             binding.taskadapter=taskadapter
