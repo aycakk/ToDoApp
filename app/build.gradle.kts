@@ -72,8 +72,8 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     kapt("androidx.room:room-compiler:$room_version")
     implementation ("com.google.firebase:firebase-auth:21.1.0")
+    implementation ("androidx.work:work-runtime-ktx:2.9.1")
 
-        implementation ("androidx.work:work-runtime-ktx:2.9.1")
 
 
 

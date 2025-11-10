@@ -13,7 +13,10 @@ import com.example.todo.ViewModel.HomeViewModel
 import com.example.todo.data.entity.Tasks
 import com.example.todo.databinding.TaskcardBinding
 import com.example.todo.fragments.HomeFragmentDirections
-import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class TasksAdapter(
     private val mContext: Context,
@@ -21,12 +24,21 @@ class TasksAdapter(
     private val viewModel: HomeViewModel
 ) : RecyclerView.Adapter<TasksAdapter.TaskCardHolder>() {
 
+    // Zaman ve tarih formatlayıcılar
+    private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
+
     inner class TaskCardHolder(val binding: TaskcardBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskCardHolder {
         val binding: TaskcardBinding =
-            DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.taskcard, parent, false)
+            DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.taskcard,
+                parent,
+                false
+            )
         return TaskCardHolder(binding)
     }
 
@@ -35,15 +47,46 @@ class TasksAdapter(
         val t = holder.binding
         t.taskobject = task
 
-        // 🔹 Düzenleme ekranına git
+        // 🔹 Tarih – Saat formatlama
+        // startdate ve end_date saniye cinsinden, Date için milisaniyeye çevirelim
+        val startText = if (task.startdate != null && task.startdate > 0L) {
+            timeFormat.format(Date(TimeUnit.SECONDS.toMillis(task.startdate)))
+        } else {
+            "--:--"
+        }
+
+        val endText = if (task.end_date != null && task.end_date > 0L) {
+            timeFormat.format(Date(TimeUnit.SECONDS.toMillis(task.end_date)))
+        } else {
+            "--:--"
+        }
+
+        t.taskTime.text = "$startText - $endText"
+
+        val dateText = if (task.date != null && task.date > 0L) {
+            dateFormat.format(Date(task.date))
+        } else {
+            ""
+        }
+        t.taskDate.text = dateText
+
+        // 🔹 Kart tıklanınca EditFragment'a git
         t.taskcard.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToEditFragment(Task = task)
             Navigation.findNavController(it).navigate(action)
         }
 
-        // 🔹 Checkbox güncel durumunu göster
-        t.checkBox.setOnCheckedChangeListener(null) // eski listener'ı temizle
+        // 🔹 Checkbox state'ini önce temizle, sonra güncel durumu ata
+        t.checkBox.setOnCheckedChangeListener(null)
         t.checkBox.isChecked = task.isCompleted
+
+        // Başlangıçta checkbox rengi (tamamlanmışsa pembe, değilse gri)
+        val initialColor = if (task.isCompleted)
+            ContextCompat.getColor(t.root.context, R.color.button)
+        else
+            ContextCompat.getColor(t.root.context, android.R.color.darker_gray)
+
+        t.checkBox.buttonTintList = ColorStateList.valueOf(initialColor)
 
         // 🔹 Checkbox tıklanınca renk + veritabanı güncelle
         t.checkBox.setOnCheckedChangeListener { _, isChecked ->
@@ -55,7 +98,7 @@ class TasksAdapter(
             t.checkBox.buttonTintList = ColorStateList.valueOf(color)
 
             // ✅ Veritabanını güncelle (ViewModel fonksiyonunu çağır)
-            viewModel.isChecked(task.id,isChecked)
+            viewModel.isChecked(task.id, isChecked)
         }
     }
 
