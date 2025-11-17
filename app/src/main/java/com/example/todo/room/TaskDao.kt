@@ -23,4 +23,5 @@ interface TaskDao {
  @Query("UPDATE task SET iscompleate = :isCheck WHERE task_id = :id")
  suspend fun updateChecked(id: Int, isCheck: Boolean)
 
+
 }

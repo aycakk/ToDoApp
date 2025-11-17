@@ -17,4 +17,5 @@ data class Tasks(@PrimaryKey(autoGenerate = true)
                  @ColumnInfo(name = "start_time") @NotNull var startdate: Long = 0L,
                  @ColumnInfo(name = "end_time") @NotNull var end_date: Long = 0L,// Bitiş tarihi
                  @ColumnInfo(name = "date") @NotNull var date:  Long = 0L,
+                 @ColumnInfo(name = "version") val version: Int = 1,
                  @ColumnInfo(name = "created_timr") @NotNull var createdAt: Long = System.currentTimeMillis()):Serializable{}
