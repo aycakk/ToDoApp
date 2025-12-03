@@ -1,18 +1,26 @@
 package com.example.todo.ViewModel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.privacysandbox.ads.adservices.adid.AdId
 import com.example.todo.data.entity.Tasks
 import com.example.todo.data.Repo.TasksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+
+
+
+
 @HiltViewModel
-class HomeViewModel @Inject constructor(var trs: TasksRepository): ViewModel() {
+class HomeViewModel @Inject constructor(var trs: TasksRepository , @ApplicationContext val context: Context): ViewModel() {
     var tasklist=MutableLiveData<List<Tasks>>()
     val progress = MutableLiveData<Int>()
     init {
@@ -26,7 +34,7 @@ class HomeViewModel @Inject constructor(var trs: TasksRepository): ViewModel() {
     }
 
     }
-    fun isChecked(task_id: Int, isCheck: Boolean) {
+    fun isChecked(task_id: String, isCheck: Boolean) {
         CoroutineScope(Dispatchers.Main).launch {
             trs.isChecked(task_id, isCheck)
 
@@ -44,6 +52,11 @@ class HomeViewModel @Inject constructor(var trs: TasksRepository): ViewModel() {
         val percent = if (total > 0) (completed * 100) / total else 0
         progress.postValue(percent)
         Log.d("PROGRESS_DEBUG", "total=$total, completed=$completed, percent=$percent")
+    }
+    fun syncTasks() {
+        viewModelScope.launch {
+          trs.sync(context)
+        }
     }
 
 

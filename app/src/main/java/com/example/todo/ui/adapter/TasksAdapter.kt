@@ -1,4 +1,4 @@
-package com.example.todo.adapter
+package com.example.todo.ui.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -12,7 +12,7 @@ import com.example.todo.R
 import com.example.todo.ViewModel.HomeViewModel
 import com.example.todo.data.entity.Tasks
 import com.example.todo.databinding.TaskcardBinding
-import com.example.todo.fragments.HomeFragmentDirections
+import com.example.todo.ui.fragments.HomeFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -49,14 +49,14 @@ class TasksAdapter(
 
         // 🔹 Tarih – Saat formatlama
         // startdate ve end_date saniye cinsinden, Date için milisaniyeye çevirelim
-        val startText = if (task.startdate != null && task.startdate > 0L) {
-            timeFormat.format(Date(TimeUnit.SECONDS.toMillis(task.startdate)))
+        val startText = if (task.startDate != null && task.startDate > 0L) {
+            timeFormat.format(Date(TimeUnit.SECONDS.toMillis(task.startDate)))
         } else {
             "--:--"
         }
 
-        val endText = if (task.end_date != null && task.end_date > 0L) {
-            timeFormat.format(Date(TimeUnit.SECONDS.toMillis(task.end_date)))
+        val endText = if (task.endDate != null && task.endDate > 0L) {
+            timeFormat.format(Date(TimeUnit.SECONDS.toMillis(task.endDate)))
         } else {
             "--:--"
         }
@@ -79,6 +79,8 @@ class TasksAdapter(
         // 🔹 Checkbox state'ini önce temizle, sonra güncel durumu ata
         t.checkBox.setOnCheckedChangeListener(null)
         t.checkBox.isChecked = task.isCompleted
+        t.taskDescription.text=task.explain
+        t.taskTitle.text=task.title
 
         // Başlangıçta checkbox rengi (tamamlanmışsa pembe, değilse gri)
         val initialColor = if (task.isCompleted)

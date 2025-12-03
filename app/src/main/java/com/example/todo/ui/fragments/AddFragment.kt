@@ -1,4 +1,4 @@
-package com.example.todo.fragments
+package com.example.todo.ui.fragments
 
 import android.app.TimePickerDialog
 import android.icu.text.SimpleDateFormat
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -26,7 +27,7 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
-private lateinit var binding:FragmentAddBinding
+private lateinit var binding: FragmentAddBinding
 private lateinit var viewModel: AddViewModel
 private var selectedDate: String = ""
 
@@ -62,7 +63,7 @@ private var selectedDate: String = ""
     }
 
 
-    private fun showTimePicker(editText: android.widget.EditText) {
+    private fun showTimePicker(editText: EditText) {
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)

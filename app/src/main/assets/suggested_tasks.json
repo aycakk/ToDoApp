@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Sabah Egzersizi",
+    "explain": "Güne enerjik başlamak için 30 dakika egzersiz",
+    "start": "07:00",
+    "end": "07:30"
+  },
+  {
+    "title": "Kitap Okuma",
+    "explain": "20 dakika kitap okuyarak zihnini geliştir",
+    "start": "20:00",
+    "end": "20:20"
+  },
+  {
+    "title": "Su İçme Hatırlatıcısı",
+    "explain": "2 bardak su içmeyi unutma",
+    "start": "12:00",
+    "end": "12:15"
+  },
+  {
+    "title": "Meditasyon",
+    "explain": "15 dakika meditasyon yap",
+    "start": "19:00",
+    "end": "19:15"
+
+  }
+]

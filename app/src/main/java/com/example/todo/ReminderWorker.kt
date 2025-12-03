@@ -1,4 +1,4 @@
-package com.example.todo
+/* package com.example.todo
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -15,7 +15,7 @@ class ReminderWorker(
     params: WorkerParameters
 ) : Worker(appContext, params) {
 
-    override fun doWork(): Result {
+   override fun doWork(): Result {
         val title = inputData.getString("title") ?: "Görev hatırlatıcısı"
         val text  = inputData.getString("text")  ?: "Zamanı geldi 🎯"
 
@@ -36,5 +36,5 @@ class ReminderWorker(
             .setAutoCancel(true)
             .build()
         nm.notify(Random.nextInt(), notification)
-    }
-}
+    }*/
+

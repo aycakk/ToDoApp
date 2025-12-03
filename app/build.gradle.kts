@@ -47,6 +47,7 @@ apply(plugin = "androidx.navigation.safeargs.kotlin")
 
 dependencies {
 
+    implementation(libs.androidx.fragment)
     val room_version = "2.7.2"
 
     implementation("androidx.room:room-runtime:$room_version")
@@ -73,6 +74,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     implementation ("com.google.firebase:firebase-auth:21.1.0")
     implementation ("androidx.work:work-runtime-ktx:2.9.1")
+    implementation("com.google.code.gson:gson:2.10.1")
 
 
 

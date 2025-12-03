@@ -1,4 +1,4 @@
-package com.example.todo.room
+package com.example.todo.data.room
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -20,8 +20,8 @@ interface TaskDao {
  @Update
  suspend fun update(task: Tasks)
 
- @Query("UPDATE task SET iscompleate = :isCheck WHERE task_id = :id")
- suspend fun updateChecked(id: Int, isCheck: Boolean)
+ @Query("UPDATE task SET is_complete = :isCheck WHERE task_id = :id")
+ suspend fun updateChecked(id: String, isCheck: Boolean)
 
 
 }

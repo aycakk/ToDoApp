@@ -6,7 +6,7 @@
     <data>
         <variable
             name="Editfragment"
-            type="com.example.todo.fragments.EditFragment" />
+            type="com.example.todo.ui.fragments.EditFragment" />
         <variable
             name="task"
             type="com.example.todo.data.entity.Tasks" />
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:background="#FFF8FB"
-        tools:context=".fragments.EditFragment">
+        tools:context=".ui.fragments.EditFragment">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="Addfragment"
-            type="com.example.todo.fragments.AddFragment" />
+            type="com.example.todo.ui.fragments.AddFragment" />
     </data>
 
     <ScrollView
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:background="#FFF8FB"
-        tools:context=".fragments.AddFragment">
+        tools:context=".ui.fragments.AddFragment">
 
         <LinearLayout
             android:layout_width="match_parent"

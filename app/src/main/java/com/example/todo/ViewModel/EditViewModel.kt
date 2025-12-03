@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditViewModel @Inject constructor(var trs: TasksRepository): ViewModel(){
-    fun delete(task_id:Int)=CoroutineScope(Dispatchers.Main).launch { trs.delete(task_id) }
+    fun delete(task_id:String)=CoroutineScope(Dispatchers.Main).launch { trs.delete(task_id) }
 
-    fun update( task_id: Int,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
+    fun update( task_id: String,task_title: String, task_explain: String, task_startdate: Long, task_end_date: Long,
                 date: Long)=CoroutineScope(Dispatchers.Main).launch {trs.update(task_id,task_title,task_explain,task_startdate,task_end_date,date)}
 }
