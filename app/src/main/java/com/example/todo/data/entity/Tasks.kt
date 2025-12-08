@@ -5,23 +5,32 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.UUID
-
-
 @Entity(tableName = "task")
 data class Tasks(
     @PrimaryKey
     @ColumnInfo(name = "task_id") val id: String = UUID.randomUUID().toString(),
+
     @ColumnInfo(name = "user_id") var userId: Long,
     @ColumnInfo(name = "title") var title: String = "",
     @ColumnInfo(name = "explain") var explain: String = "",
     @ColumnInfo(name = "is_complete") var isCompleted: Boolean = false,
+
+    @ColumnInfo(name = "is_deleted") var isDeleted: Boolean?,   // ⭐ YENİ EKLENDİ ⭐
+
     @ColumnInfo(name = "start_time") var startDate: Long = 0L,
     @ColumnInfo(name = "end_time") var endDate: Long = 0L,
     @ColumnInfo(name = "date") var date: Long = System.currentTimeMillis(),
+
     @ColumnInfo(name = "version") var version: Int = 1,
     @ColumnInfo(name = "created_time") var createdTime: Long = System.currentTimeMillis(),
-    @ColumnInfo(name = "updated_time") var updatedTime: Long = System.currentTimeMillis()
-): Serializable
+    @ColumnInfo(name = "updated_time") var updatedTime: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "dummy_field") var dummy_field: String? = null
+
+) : Serializable
+fun Tasks.markUpdated() {
+    this.version += 1
+    this.updatedTime = System.currentTimeMillis()
+}
 
 
 

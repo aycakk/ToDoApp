@@ -18,7 +18,8 @@ fun Tasks.toFirestoreMap() = mapOf(
     "date" to date,
     "version" to version,
     "created_time" to createdTime,
-    "updated_time" to updatedTime
+    "updated_time" to updatedTime,
+    "is_deleted" to isDeleted     // 🔄 "is_deleted" yerine "deleted"
 )
 
 fun DocumentSnapshot.toTask(): Tasks? {
@@ -34,6 +35,7 @@ fun DocumentSnapshot.toTask(): Tasks? {
         date = (data["date"] as? Number)?.toLong() ?: 0L,
         version = (data["version"] as? Number)?.toInt() ?: 1,
         createdTime = (data["created_time"] as? Number)?.toLong() ?: System.currentTimeMillis(),
-        updatedTime = (data["updated_time"] as? Number)?.toLong() ?: System.currentTimeMillis()
+        updatedTime = (data["updated_time"] as? Number)?.toLong() ?: System.currentTimeMillis(),
+        isDeleted = data["is_deleted"] as? Boolean ?
     )
 }

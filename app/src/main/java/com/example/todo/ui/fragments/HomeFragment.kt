@@ -28,6 +28,7 @@ import com.example.todo.data.entity.Tasks
 import com.example.todo.ui.adapter.SuggestionsAdapter
 import com.example.todo.databinding.HomeFragmentBinding
 import com.example.todo.utils.JsonHelper
+import com.example.todo.worker.SyncWorker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,30 +52,23 @@ private lateinit var addviewModel: AddViewModel
                 requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 100)
             }
         }
-        val db = FirebaseFirestore.getInstance()
-        val test = hashMapOf("test" to "deneme")
 
-        db.collection("test_collection")
-            .document("test_doc")
-            .set(test)
-            .addOnSuccessListener {
-                Log.d("SYNC", "Firestore bağlantısı başarılı.")
-            }
-            .addOnFailureListener {
-                Log.e("SYNC", "Firestore bağlantı hatası", it)
-            }
 
         binding=DataBindingUtil.inflate(inflater,R.layout.home_fragment,container,false)
         binding.homeobject=this
         binding.lifecycleOwner = viewLifecycleOwner
+
         with(binding,){
             with(viewModel){
                 suggestButton.setOnClickListener {
                     showSuggestionsSheet()
+
+
                 }
                 sync.setOnClickListener { syncTasks()
                     Toast.makeText(requireContext(), "Sync başlatıldı!", Toast.LENGTH_SHORT).show()
                     loading()
+
 
                 }
 
@@ -101,7 +95,7 @@ private lateinit var addviewModel: AddViewModel
 
 
 
-        onResume()
+
 
 
 

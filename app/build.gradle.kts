@@ -48,13 +48,10 @@ apply(plugin = "androidx.navigation.safeargs.kotlin")
 dependencies {
 
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.hilt.work)
     val room_version = "2.7.2"
-
     implementation("androidx.room:room-runtime:$room_version")
-
-
     implementation(libs.firebase.firestore.ktx)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -76,6 +73,8 @@ dependencies {
     implementation ("androidx.work:work-runtime-ktx:2.9.1")
     implementation("com.google.code.gson:gson:2.10.1")
 
+
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
 
 
 

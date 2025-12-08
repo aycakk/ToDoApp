@@ -3,16 +3,19 @@ package com.example.todo.data.datasource
 
 import android.util.Log
 import com.example.todo.data.entity.Tasks
+import com.example.todo.data.entity.markUpdated
 import com.example.todo.data.room.TaskDao
 import com.example.todo.sync.FirestoreSyncRepository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class TaskDataSource(private val taskDao: TaskDao,private val firestoreSyncRepository: FirestoreSyncRepository)
-{
+class TaskDataSource(
+  private val taskDao: TaskDao,
+  private val firestoreSyncRepository: FirestoreSyncRepository
+) {
 
-  // Yeni görev kaydet
+  // ⭐ Yeni görev ekle
   suspend fun save(
     taskTitle: String,
     taskExplain: String,
@@ -20,55 +23,26 @@ class TaskDataSource(private val taskDao: TaskDao,private val firestoreSyncRepos
     taskEndDate: Long,
     date: Long
   ) {
-    try {
-      val newTask = Tasks(
-
-        userId = 0,
-        title = taskTitle,
-        explain = taskExplain,
-        isCompleted = false,
-        startDate = taskStartDate,
-        endDate = taskEndDate,
-        date = date,
-        version = 1, // default versiyon
-        createdTime = System.currentTimeMillis()
-      )
-      taskDao.save(newTask)
-      Log.d("TASK_ADD", "Yeni görev ID: ${newTask.id}")
-
-    } catch (e: Exception) {
-      Log.e("TaskDataSource", "Save error", e)
-    }
+    val newTask = Tasks(
+      userId = 0,
+      title = taskTitle,
+      explain = taskExplain,
+      isCompleted = false,
+      isDeleted = false,
+      startDate = taskStartDate,
+      endDate = taskEndDate,
+      date = date,
+      version = 1,
+      createdTime = System.currentTimeMillis(),
+      updatedTime = System.currentTimeMillis()
+    )
+    taskDao.save(newTask)
   }
 
-  // Tüm görevleri yükle
-  suspend fun loading(): List<Tasks> =
-    withContext(Dispatchers.IO) {
-      return@withContext taskDao.loadingtask()
-    }
+  // ⭐ Aktif görevleri yükle
+  suspend fun loading(): List<Tasks> = taskDao.loadActiveTasks()
 
-  // Görev sil
-  suspend fun delete(taskId: String) {
-    try {
-      val deleteTask = Tasks(
-        id = taskId,
-        userId = 0,
-        title = "",
-        explain = "",
-        isCompleted = false,
-        startDate = 0,
-        endDate = 0,
-        date = 0,
-        version = 1,
-        createdTime = System.currentTimeMillis()
-      )
-      taskDao.delete(deleteTask)
-    } catch (e: Exception) {
-      Log.e("TaskDataSource", "Delete error", e)
-    }
-  }
-
-  // Görev güncelle
+  // ⭐ Güncelleme
   suspend fun update(
     taskId: String,
     taskTitle: String,
@@ -77,29 +51,45 @@ class TaskDataSource(private val taskDao: TaskDao,private val firestoreSyncRepos
     taskEndDate: Long,
     date: Long
   ) {
-    val updateTask = Tasks(
-      id = taskId,
-userId = 0,
+    val oldTask = taskDao.getTaskById(taskId)
+
+    val updated = oldTask.copy(
       title = taskTitle,
       explain = taskExplain,
-      isCompleted = false,
       startDate = taskStartDate,
       endDate = taskEndDate,
-      date = date,
-      version = 1,
-      createdTime = System.currentTimeMillis()
+      date = date
     )
-    taskDao.update(updateTask)
+
+    updated.markUpdated() // version++ + updatedTime
+    taskDao.update(updated)
   }
 
-  // Tamamlandı mı? güncelle
+  // ⭐ Soft delete
+  suspend fun delete(taskId: String) {
+    val oldTask = taskDao.getTaskById(taskId)
+
+    val updated = oldTask.copy(
+      isDeleted = true
+    )
+
+    updated.markUpdated()
+    taskDao.update(updated) // Artık soft delete oldu
+  }
+
+  // ⭐ Checkbox (tamamlandı mı)
   suspend fun isChecked(taskId: String, isCheck: Boolean) {
-    taskDao.updateChecked(taskId, isCheck)
+    val oldTask = taskDao.getTaskById(taskId)
+
+    val updated = oldTask.copy(
+      isCompleted = isCheck
+    )
+
+    updated.markUpdated()
+    taskDao.update(updated)
   }
 
   suspend fun syncAll() {
-   firestoreSyncRepository.syncAll()
+    firestoreSyncRepository.syncAll()
   }
-
-
 }
