@@ -28,7 +28,7 @@ import com.example.todo.data.entity.Tasks
 import com.example.todo.ui.adapter.SuggestionsAdapter
 import com.example.todo.databinding.HomeFragmentBinding
 import com.example.todo.utils.JsonHelper
-import com.example.todo.worker.SyncWorker
+
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint

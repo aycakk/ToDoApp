@@ -17,7 +17,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.todo.ViewModel.HomeViewModel
 import com.example.todo.data.entity.Tasks
-import com.example.todo.worker.SyncWorker
+
 
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore

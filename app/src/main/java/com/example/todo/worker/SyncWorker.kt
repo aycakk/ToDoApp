@@ -8,7 +8,7 @@ import com.example.todo.sync.FirestoreSyncRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class SyncWorker(
+class SyncWorker()/*
     context: Context,
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
@@ -28,5 +28,5 @@ class SyncWorker(
         } catch (e: Exception) {
             Result.retry()
         }
-    }
-}
+    }*/
+

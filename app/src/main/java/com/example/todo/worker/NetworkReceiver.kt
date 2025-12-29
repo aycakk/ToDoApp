@@ -12,10 +12,7 @@ class NetworkReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val isConnected = isNetworkAvailable(context)
 
-        if (isConnected) {
-            val request = OneTimeWorkRequest.from(SyncWorker::class.java)
-            WorkManager.getInstance(context).enqueue(request)
-        }
+
     }
 
     // 🔥 Yeni Android API uyumlu internet kontrolü

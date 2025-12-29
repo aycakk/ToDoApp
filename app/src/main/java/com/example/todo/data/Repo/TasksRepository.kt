@@ -17,6 +17,8 @@ class TasksRepository(var tds:TaskDataSource) {
 
     suspend fun isChecked(task_id: String, isCheck: Boolean)=tds.isChecked(task_id,isCheck)
     suspend fun sync(context: Context)=tds.syncAll()
+    suspend fun getLastEvents(limit: Int = 50) = tds.getLastEvents(limit)
+
 
 
 }

@@ -54,10 +54,18 @@ class HomeViewModel @Inject constructor(var trs: TasksRepository , @ApplicationC
         Log.d("PROGRESS_DEBUG", "total=$total, completed=$completed, percent=$percent")
     }
     fun syncTasks() {
-        viewModelScope.launch {
-          trs.sync(context)
+        viewModelScope.launch(Dispatchers.IO) {
+            trs.sync(context)
+            val sdf = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault())
+
+            val events = trs.getLastEvents(50)
+            events.forEach {
+                Log.d("EVENT_TRACK", "${sdf.format(java.util.Date(it.at))} ${it.type} ${it.baseVersion}->${it.newVersion} ${it.taskId}")
+
+            }
         }
     }
+
 
 
 }

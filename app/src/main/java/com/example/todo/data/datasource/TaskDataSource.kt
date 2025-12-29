@@ -2,6 +2,7 @@ package com.example.todo.data.datasource
 
 
 import android.util.Log
+import com.example.todo.data.entity.TaskEvent
 import com.example.todo.data.entity.Tasks
 import com.example.todo.data.entity.markUpdated
 import com.example.todo.data.room.TaskDao
@@ -37,6 +38,13 @@ class TaskDataSource(
       updatedTime = System.currentTimeMillis()
     )
     taskDao.save(newTask)
+    taskDao.insertEvent(
+      com.example.todo.data.entity.TaskEvent(
+        taskId = newTask.id,
+        type = "CREATE",
+        baseVersion = 0,
+        newVersion = newTask.version
+      ))
   }
 
   // ⭐ Aktif görevleri yükle
@@ -51,7 +59,9 @@ class TaskDataSource(
     taskEndDate: Long,
     date: Long
   ) {
-    val oldTask = taskDao.getTaskById(taskId)
+
+    val oldTask = taskDao.getTaskById(taskId) ?: return  // <-- önemli
+    val baseVersion = oldTask.version
 
     val updated = oldTask.copy(
       title = taskTitle,
@@ -63,33 +73,59 @@ class TaskDataSource(
 
     updated.markUpdated() // version++ + updatedTime
     taskDao.update(updated)
+    taskDao.insertEvent(
+      com.example.todo.data.entity.TaskEvent(
+        taskId = taskId,
+        type = "UPDATE",
+        baseVersion = baseVersion,
+        newVersion = updated.version
+      ))
   }
 
   // ⭐ Soft delete
   suspend fun delete(taskId: String) {
-    val oldTask = taskDao.getTaskById(taskId)
+    val oldTask = taskDao.getTaskById(taskId) ?: return
+    val baseVersion = oldTask.version
 
-    val updated = oldTask.copy(
-      isDeleted = true
-    )
+    val updated = oldTask.copy(isDeleted = true).also { it.markUpdated() }
+    taskDao.update(updated)
 
-    updated.markUpdated()
+
+
     taskDao.update(updated) // Artık soft delete oldu
+    taskDao.insertEvent(
+      com.example.todo.data.entity.TaskEvent(
+        taskId = taskId,
+        type = "DELETE",
+        baseVersion = baseVersion,
+        newVersion = updated.version
+      )
+    )
   }
 
   // ⭐ Checkbox (tamamlandı mı)
   suspend fun isChecked(taskId: String, isCheck: Boolean) {
-    val oldTask = taskDao.getTaskById(taskId)
+    val oldTask = taskDao.getTaskById(taskId) ?: return
+    val baseVersion = oldTask.version
 
-    val updated = oldTask.copy(
-      isCompleted = isCheck
-    )
-
-    updated.markUpdated()
+    val updated = oldTask.copy(isCompleted = isCheck).also { it.markUpdated() }
     taskDao.update(updated)
+
+
+    taskDao.update(updated)
+    taskDao.insertEvent(
+      com.example.todo.data.entity.TaskEvent(
+        taskId = taskId,
+        type = "CHECK",
+        baseVersion = baseVersion,
+        newVersion = updated.version
+      ))
   }
 
   suspend fun syncAll() {
     firestoreSyncRepository.syncAll()
   }
+  suspend fun getLastEvents(limit: Int = 50): List<TaskEvent> =
+    taskDao.getLastEvents(limit)
+
 }

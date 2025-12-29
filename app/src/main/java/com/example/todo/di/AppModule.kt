@@ -21,14 +21,23 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
-    val MIGRATION_9_10 = object : Migration(9, 10) {
-
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // ✅ Yeni kolon ekleniyor
-                database.execSQL("ALTER TABLE task ADD COLUMN dummy_field TEXT")
-            }
+    val MIGRATION_10_11 = object : Migration(10, 11) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS task_event(
+                event_id TEXT NOT NULL PRIMARY KEY,
+                task_id TEXT NOT NULL,
+                type TEXT NOT NULL,
+                at INTEGER NOT NULL,
+                base_version INTEGER NOT NULL,
+                new_version INTEGER NOT NULL
+            )
+            """.trimIndent()
+            )
 
         }
+    }
 
 
 
@@ -40,7 +49,7 @@ class AppModule {
             DataBase::class.java,
             "task-db"
         )
-            .addMigrations(MIGRATION_9_10)
+            .addMigrations(MIGRATION_10_11)
             .build()
 
     }

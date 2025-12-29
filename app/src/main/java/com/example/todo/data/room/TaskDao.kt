@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.todo.data.entity.TaskEvent
 import com.example.todo.data.entity.Tasks
 @Dao
 interface TaskDao {
@@ -34,6 +35,15 @@ interface TaskDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(task: Tasks)
+
+  @Insert
+  suspend fun insertEvent(event: TaskEvent)
+
+  @Query("SELECT * FROM task_event WHERE task_id = :taskId ORDER BY at DESC")
+  suspend fun getEventsForTask(taskId: String): List<com.example.todo.data.entity.TaskEvent>
+
+  @Query("SELECT * FROM task_event ORDER BY at DESC LIMIT :limit")
+  suspend fun getLastEvents(limit: Int): List<TaskEvent>
 
 }
 
